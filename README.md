@@ -10,3 +10,5 @@
 	
 	扩展点如下：
 	1、结合disconf
+	
+	测试项目：https://github.com/zhijingai/ml-apple
