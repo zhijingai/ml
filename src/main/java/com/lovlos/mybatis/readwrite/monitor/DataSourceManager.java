@@ -9,11 +9,13 @@ import com.lovlos.mybatis.readwrite.base.DataSource;
 import com.lovlos.mybatis.readwrite.base.DataSourceSelect;
 import com.lovlos.mybatis.readwrite.base.HystrixTask;
 import com.lovlos.mybatis.readwrite.config.DataSourceConfig;
+import com.lovlos.mybatis.readwrite.core.DynamicDataSourceHolder;
 import com.lovlos.mybatis.readwrite.monitor.hystrix.DataSourceHystrixer;
 import com.lovlos.mybatis.readwrite.monitor.provide.DataSourceProvider;
 import com.lovlos.mybatis.readwrite.util.DataSourceUtil;
 import com.lovlos.mybatis.readwrite.util.DynamicDataSourceMapperUtil;
 import com.lovlos.mybatis.readwrite.util.HystrixDataSourceUtil;
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 
 /**
  * 失效转移器
@@ -101,6 +103,16 @@ public class DataSourceManager {
 				dataSourceSelect.getDateSourceList().remove(dataSourceName);
 			}
 		}	
+	}
+	
+	/**
+	 * 上报数据源异常
+	 * @param dataSourceName
+	 */
+	public static void notifyHystrixDataSource(Throwable throwable) {
+		if(throwable.getCause() instanceof CommunicationsException) {
+			notifyHystrixDataSource(DynamicDataSourceHolder.getDataSourceName());
+		}
 	}
 
 	/**

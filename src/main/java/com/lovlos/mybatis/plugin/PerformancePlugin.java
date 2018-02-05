@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import com.lovlos.mybatis.readwrite.core.DynamicDataSourceHolder;
 import com.lovlos.mybatis.readwrite.monitor.DataSourceManager;
-import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 
 /**
  * MyBatis 性能拦截器，用于输出每条 SQL 语句及其执行时间
@@ -64,9 +63,7 @@ public class PerformancePlugin implements Interceptor {
 			result = invocation.proceed();
 		} catch (Throwable throwable) {
 			// 上报数据源不可用
-			if(throwable.getCause() instanceof CommunicationsException) {
-				DataSourceManager.notifyHystrixDataSource(DynamicDataSourceHolder.getDataSourceName());				
-			}
+			DataSourceManager.notifyHystrixDataSource(throwable);	
 			throw throwable;		
 		}
 		long end = System.currentTimeMillis();
