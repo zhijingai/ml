@@ -9,6 +9,6 @@
 	5、ROBIN轮询策略
 	
 	扩展点如下：
-	1、结合disconf
+	1、结合disconf/zk多点
 	
 	测试项目：https://github.com/zhijingai/ml-apple
