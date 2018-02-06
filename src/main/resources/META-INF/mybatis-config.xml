@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<!-- 这个配置使全局的映射器启用或禁用 缓存 -->
+		<setting name="cacheEnabled" value="true" />
+		<!-- 全局启用或禁用延迟加载。当禁用时, 所有关联对象都会即时加载 -->
+		<setting name="lazyLoadingEnabled" value="true" />
+		<!-- 允许或不允许多种结果集从一个单独 的语句中返回(需要适合的驱动) -->
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<!-- 使用列标签代替列名。 不同的驱动在这 方便表现不同。 参考驱动文档或充分测 试两种方法来决定所使用的驱动 -->
+		<setting name="useColumnLabel" value="true" />
+		<!-- 允许 JDBC 支持生成的键。 需要适合的 驱动。 如果设置为 true 则这个设置强制 生成的键被使用, 尽管一些驱动拒绝兼 容但仍然有效(比如  Derby) -->
+		<setting name="useGeneratedKeys" value="false" />
+		<!-- 配置默认的执行器。SIMPLE 执行器没 有什么特别之处。REUSE 执行器重用 预处理语句。BATCH 执行器重用语句 和批量更新 -->
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<!-- 设置超时时间, 它决定驱动等待一个数 据库响应的时间 -->
+		<setting name="defaultStatementTimeout" value="100" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+	</settings>
+	
+	<plugins>
+		<plugin interceptor="com.lovlos.mybatis.plugin.PerformancePlugin"></plugin>
+		<plugin interceptor="com.lovlos.mybatis.mapper.interceptor.MapperInterceptor">		
+			<property name="seqFormat" value="{0}.nextval" />
+			<property name="ORDER" value="BEFORE"/> 
+			<property name="cameHumpMap" value="false" />
+			<property name="mappers" value="com.lovlos.mybatis.mapper.base.Mapper" />
+		</plugin>
+	</plugins> 
+
+
+	<!-- 处理保留 -->
+	<!-- 类型别名是为 Java类型命名一个短的名字。 它只和 XML配置有关,只用来减少类完全 限定名的多余部分 -->
+	<!-- <plugins>  
+		性能监控
+		<plugin interceptor="com.lovlos.mybatis.plugin.PerformanceInterceptor">
+		</plugin>
+   		<plugin interceptor="com.isz.erp.common.page.PaginationInterceptor">
+			oracle特殊处理
+			<property name="dialect" value="com.isz.erp.common.page.MysqlDialect" />
+		</plugin>
+		<plugin interceptor="com.isz.erp.comm.mybatis.mapper.MapperInterceptor">
+			================================================
+			可配置参数说明(一般无需修改)
+			================================================
+			UUID生成策略
+			配置UUID生成策略需要使用OGNL表达式
+			默认值32位长度:@java.util.UUID@randomUUID().toString().replace("-", "")
+			<property name="UUID" value="@java.util.UUID@randomUUID().toString()"/>
+			主键自增回写方法,默认值MYSQL,详细说明看下面的INENTITY参数配置
+			<property name="IDENTITY" value="MYSQL" />
+			序列的获取规则,使用{num}格式化参数，默认值为{0}.nextval，针对Oracle
+			可选参数一共3个，对应0,1,2,分别为SequenceName，ColumnName,PropertyName
+			<property name="seqFormat" value="{0}.nextval" />
+			主键自增回写方法执行顺序,默认AFTER,可选值为(BEFORE|AFTER)
+			<property name="ORDER" value="BEFORE"/> 
+			这个处理使得通用Mapper可以支持Map类型的实体（实体中的字段必须按常规方式定义，否则无法反射获得列）
+			<property name="cameHumpMap" value="false" />
+			通用Mapper接口，多个通用接口用逗号隔开
+			<property name="mappers" value="com.isz.erp.comm.mybatis.mapper.Mapper" />
+		</plugin>	
+	</plugins>  -->
+</configuration>
