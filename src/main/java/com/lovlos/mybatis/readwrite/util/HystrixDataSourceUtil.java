@@ -14,7 +14,7 @@ public class HystrixDataSourceUtil {
 	/**
 	 * 默认熔断数据源数额
 	 */
-	public static final Integer DEFAULT_HYSTRIX_NUM = 5;
+	public static final Integer DEFAULT_HYSTRIX_NUM = 1;
 	
 	/**
 	 * 数据源异常次数限制

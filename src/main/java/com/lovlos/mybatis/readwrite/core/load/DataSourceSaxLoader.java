@@ -1,5 +1,6 @@
 package com.lovlos.mybatis.readwrite.core.load;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -125,23 +126,32 @@ public class DataSourceSaxLoader extends DefaultHandler {
 	/**
 	 * 可用性检验
 	 * @return
+	 * @throws SQLException 
 	 */
-	private boolean checkDataSources() {
+	private boolean checkDataSources() throws SAXException {
 		if(dataSource == null || StringUtils.isBlank(dataSource.getDataSourceName())) {
 			return false;
 		}
-		DruidDataSource druidDataSource = (DruidDataSource) SpringUtil.getBean(dataSource.getDataSourceName());
+		DruidDataSource druidDataSource = (DruidDataSource) SpringUtil.getBean(dataSource.getDataSourceName());		
+//		// 初始化createConnection
+//		if (dataSource.getDataSourceName().equals("readDataSourceThree")) {
+//			druidDataSource.setCreateScheduler(new ScheduledThreadPoolExecutor(0));			
+//		}
+		try {
+			druidDataSource.init();
+		} catch (Exception e) {
+			throw new SAXException();
+		}
 		dataSource.setDataSource(druidDataSource);
-		buffDataSources();
 		//return DataSourceHeartBeat.checkDataSource(dataSource);
-		return true;
+		return buffDataSources();
 	}
 	
 	/**
 	 * 数据源增强
 	 */
-	private void buffDataSources() {
-
+	private boolean buffDataSources() {
+		return true;
 	}
 	
 }

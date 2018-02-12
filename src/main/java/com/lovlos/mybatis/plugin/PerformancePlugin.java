@@ -59,17 +59,19 @@ public class PerformancePlugin implements Interceptor {
 		String sql = getSql(boundSql, parameterObject, configuration);
 		long start = System.currentTimeMillis();
 		Object result = null;
+		String dataSource = null;
 		try {
 			result = invocation.proceed();
 		} catch (Throwable throwable) {
 			// 上报数据源不可用
 			DataSourceManager.notifyHystrixDataSource(throwable);	
+			dataSource = DynamicDataSourceHolder.getDataSourceName();
 			throw throwable;		
 		}
 		long end = System.currentTimeMillis();
 		long times = end - start;
-		String dataSource = DynamicDataSourceHolder.getDataSourceName();
-		logger.info("数据源：[" + dataSource + "] - 耗时：" + times + " ms" + " - id:" + statementId + " - Sql:" + sql);
+		dataSource = DynamicDataSourceHolder.getDataSourceName();
+		logger.info("数据源：[" + dataSource + "] - 结果：[" + result + "] - 耗时：" + times + " ms" + " - id:" + statementId + " - Sql:" + sql);
 		return result;
 	}
 

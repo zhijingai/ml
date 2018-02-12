@@ -5,6 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.lovlos.mybatis.readwrite.core.DynamicDataSourceHolder;
 import com.lovlos.util.FastJsonUtil;
 import com.lovlos.util.ThreadPoolUtil;
@@ -14,6 +17,8 @@ import com.lovlos.util.ThreadPoolUtil;
  * @author lovlos
  */
 public final class RoundRobinDataSourceBalance implements DataSourceBalance {
+	
+	private static final Logger logger = LoggerFactory.getLogger(RoundRobinDataSourceBalance.class);
 
 	/** 记录数据源实时调用次数 */
 	private static final ConcurrentHashMap<String, AtomicInteger> COUNT_MAP = new ConcurrentHashMap<>();
@@ -51,7 +56,7 @@ public final class RoundRobinDataSourceBalance implements DataSourceBalance {
 		if (max.get() == BALANCE_COUNT) {
 			clearBalance();
 		}
-		System.out.println("负载均衡器 可选列表:{"+ FastJsonUtil.toJSONString(dataSourceList) +"} 数据源:{" + name + "} 调度次数 {" + curr + "}");
+		logger.info("负载均衡器 可选列表:{"+ FastJsonUtil.toJSONString(dataSourceList) +"} 数据源:{" + name + "} 调度次数 {" + curr + "}");
 		DynamicDataSourceHolder.putDataSourceName(name);
 		return name;
 	}
