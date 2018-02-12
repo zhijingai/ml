@@ -10,7 +10,7 @@ public abstract class DataSourceHeartBeat implements Runnable {
     public void run() {
        while(true) {
     	   try {
-    		   Thread.sleep(30000);
+    		   Thread.sleep(10000);
     		   // 检测连接可用性
     		   checkDataSources();
            } catch (Throwable e) {
