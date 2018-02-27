@@ -13,4 +13,4 @@
 	
 	测试项目：https://github.com/zhijingai/ml-apple
 	
-	![图](https://github.com/zhijingai/ml-apple/blob/master/src/main/resources/mybatis-plugins.png)
+	![图](https://github.com/zhijingai/ml-apple/raw/master/images/mybatis-plugins.png)
