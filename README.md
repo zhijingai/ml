@@ -12,3 +12,5 @@
 	1、结合disconf/zk多点
 	
 	测试项目：https://github.com/zhijingai/ml-apple
+	
+	![Image text](http://cc.lovlos.com/mybatis-plugins.png)
